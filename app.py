@@ -1,4 +1,3 @@
-
 from flask import Flask , render_template, jsonify, request, redirect, url_for, jsonify
 from flask_sqlalchemy import SQLAlchemy
 
@@ -32,7 +31,7 @@ def home():
 @app.route("/index", methods = ["GET", "POST"])
 def index():
 	if request.method == 'POST': # When a user clicks submit button it will come here.
-		data = request.form # request the data from the form in index.html file
+		data = request.form # request the data from the form in index.html fileee
 		name = data["name"]
 		email = data["email"]
 
