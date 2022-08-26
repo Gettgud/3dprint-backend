@@ -8,19 +8,28 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://majfielwtbzupo:678b9320345
 	
 db = SQLAlchemy(app)
 
-class User(db.Model):
-	# Defines the Table Name user
-	__tablename__ = "user"
+# class for an item 
+class Item(db.Model):
+	# Defines the Table Name item
+	__tablename__ = "item"
 
-	# Makes three columns into the table id, name, email
+	# Makes three columns into the table id, description, price
 	_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-	name = db.Column(db.String(100), nullable=False)
-	email = db.Column(db.String(100), nullable=False)
+	name = db.Column(db.Text(), nullable=False)
+	description = db.Column(db.Text(), nullable=False)
+	price = db.Column(db.Numeric(5,2), nullable=False)
 
-	# A constructor function where we will pass the name and email of a user and it gets add as a new entry in the table.
-	def __init__(self, name, email):
+	# A constructor function where we will pass the id, description and price and add as a new entry in the table.
+	def __init__(self, id, name, description, price):
 		self.name = name
-		self.email = email
+		self.description = description
+		self.price = price
+
+	def __repr__(self):
+		return "Item<id={} name={} description={} price={}".format(self._id, self.name, self.description, self.price)
+
+# class for image 
+
 
 # Control will come here and then gets redirect to the index function
 @app.route("/")
