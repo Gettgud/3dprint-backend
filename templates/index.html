@@ -12,8 +12,10 @@
 	<form class="form-inline" action="" method="POST">
 		<label>Name</label>
 	  	<input type="text" id="name" placeholder="Enter Name" name="name">
-	  	<label>Email</label>
-	  	<input type="email" id="email" placeholder="Enter Email Id" name="email">
+	  	<label>Price</label>
+	  	<input type="number" step="0.01" id="price" placeholder="Enter price" name="price">
+		<label>Description</label>
+		<input type="text" id="description" placeholder="Describe product" name="description">
 	  	<button type="submit">Submit</button>
 	</form>
 
@@ -22,21 +24,23 @@
 
 	<table class="data" border="1" style="width: 100%; margin-top: 20px; text-align: center;">
 		<tr>
-			<th colspan="3">User Data</th>
+			<th colspan="4">Item Data</th>
 	  	</tr>
 	  	<tr>
-	  		<td>Sr.No.</td>
+	  		<td>ID</td>
 	    	<td>Name</td>
-	    	<td>Email</td>
+	    	<td>Description</td>
+			<td>Price</td>
 	  	</tr>
 
-	  	<!-- The user_data is a variable containing all the user data from the DB. -->
+	  	<!-- The item_data is a variable containing all the user data from the DB. -->
 	  	
-	  	{% for user in user_data %}
+	  	{% for item in item_data %}
 	  	<tr>
-	  		<td>{{user._id}}</td>
-	  		<td>{{user.name}}</td>
-	  		<td>{{user.email}}</td>
+	  		<td>{{item._id}}</td>
+	  		<td>{{item.name}}</td>
+	  		<td>{{item.description}}</td>
+			<td>{{item.price}}</td>
 	  	</tr>
 	  	{% endfor %}
 
