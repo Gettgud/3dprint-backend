@@ -26,32 +26,52 @@ class Item(db.Model):
 		self.price = price
 
 	def __repr__(self):
-		return "Item<id={} name={} description={} price={}".format(self._id, self.name, self.description, self.price)
+		return "Item<id={} name={} description={} price={}>".format(self._id, self.name, self.description, self.price)
 
 # class for image 
+class Image(db.Model):
+	# Defines the Table Name item
+	__tablename__ = "image"
+	
+	# Makes two columns into the table
+	_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+	name = db.Column(db.Text(), nullable=False)
 
+	# A constructor function where we will pass the id and name of image and add as a new entry in the table.
+	def __init__(self, name):
+		self.name = name
+	
+	def __repr__(self):
+		return "Image<id={} name={}>".format(self._id, self.name)
 
 # Control will come here and then gets redirect to the index function
 @app.route("/")
 def home():
 	return redirect(url_for('index'))
-
-
+  
 @app.route("/index", methods = ["GET", "POST"])
 def index():
 	if request.method == 'POST': # When a user clicks submit button it will come here.
 		data = request.form # request the data from the form in index.html fileee
-		name = data["name"]
-		price = data["price"]
-		description = data["description"]
+		if "name" in data and "price" in data and "description" in data:
+			name = data["name"]
+			price = data["price"]
+			description = data["description"]
 
-		new_data = Item(name, description, price)
-		db.session.add(new_data)
-		db.session.commit()
+			new_data = Item(name, description, price)
+			db.session.add(new_data)
+			db.session.commit()
+		elif "image_name" in data:
+			image_name = data["image_name"]
+
+			new_image = Image(image_name)
+			db.session.add(new_image)
+			db.session.commit()
 
 		item_data = Item.query.all()
+		image_data = Image.query.all()
 
-		return render_template("index.html", item_data = item_data) # passes user_data variable into the index.html file.
+		return render_template("index.html", item_data = item_data, image_data = image_data) # passes user_data variable into the index.html file.
 
 	return render_template("index.html")
 	
