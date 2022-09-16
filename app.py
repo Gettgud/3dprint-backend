@@ -1,5 +1,6 @@
 from flask import Flask , render_template, jsonify, request, redirect, url_for, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import ForeignKey
 
 app = Flask(__name__)
 
@@ -44,6 +45,23 @@ class Image(db.Model):
 	def __repr__(self):
 		return "Image<id={} name={}>".format(self._id, self.name)
 
+# Connect images to items
+class Item_Image(db.Model):
+	# Defines the Table Name item
+	__tablename__ = "item_image"
+
+	# Makes two columns into the table
+	image_id = db.Column(db.Integer, ForeignKey("image._id"), primary_key=True)
+	item_id = db.Column(db.Integer, ForeignKey("item._id"))
+
+	def __init__(self, image_id, item_id):
+		self.image_id = image_id
+		self.item_id = item_id
+
+	def __repr__(self):
+		return "Item_Image<image_id={} item_id={}>".format(self.image_id, self.item_id)
+
+
 # Control will come here and then gets redirect to the index function
 @app.route("/")
 def home():
@@ -67,15 +85,23 @@ def index():
 			new_image = Image(image_name)
 			db.session.add(new_image)
 			db.session.commit()
+		elif "item_id" in data and "image_id" in data:
+			image_id = data["image_id"]
+			item_id = data["item_id"]
+			
 
-		item_data = Item.query.all()
-		image_data = Image.query.all()
+			new_data = Item_Image(image_id, item_id)
+			db.session.add(new_data)
+			db.session.commit()
 
-		return render_template("index.html", item_data = item_data, image_data = image_data) # passes user_data variable into the index.html file.
+		
+	item_data = Item.query.all()
+	image_data = Image.query.all()
+	connection = Item_Image.query.all()
 
-	return render_template("index.html")
+	return render_template("index.html", item_data = item_data, image_data = image_data, item_image_data = connection) # passes user_data variable into the index.html file.
 	
 
 if __name__=="__main__":
 	db.create_all()
-	app.run(debug=True)
+	app.run(debug=True, port=3000)

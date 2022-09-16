@@ -73,4 +73,34 @@
 	  	{% endfor %}
 
 	</table>
+
+	<br>
+
+	<form class="form-inline" action="" method="POST">
+		<label>Item ID</label>
+		<input type="text" id="item_id" placeholder="Enter Item ID" name="item_id">
+		<label>Image ID</label>
+		<input type="text" id="image_id" placeholder="Enter Image ID" name="image_id">
+		<button type="submit">Submit</button>
+	</form>
+
+	<table class="data" border="1" style="width: 100%; margin-top: 20px; text-align: center;">
+		<tr>
+			<th colspan="4">Connection</th>
+	  	</tr>
+	  	<tr>
+	  		<td>Item ID</td>
+	    	<td>Image ID</td>
+	  	</tr>
+
+	  	<!-- The item_data is a variable containing all the user data from the DB. -->
+	  	
+	  	{% for item_image in item_image_data %}
+	  	<tr>
+	  		<td>{{item_image.image_id}}</td>
+	  		<td>{{item_image.item_id}}</td>
+	  	</tr>
+	  	{% endfor %}
+
+	</table>
 </body>
